@@ -4,32 +4,16 @@ _Check off items when done; add new items as scope grows._
 
 ---
 
-## Phase 1 — Project Setup ✓
+## Completed
 
-## Phase 2 — Backend / Storage Layer ✓ (replaced by File System Access API)
-
-## Phase 3 — Zustand Stores ✓
-
-## Phase 4 — Stream Planner Page ✓ (calendar view deferred)
-
-## Phase 5 — Reminders Page ✓
-
-## Phase 6 — Discord Schedule Generator ✓
-
-## Phase 7 — Settings Page ✓ (template customization deferred)
-
----
-
-## Bug Fixes
-
-- [x] datetime-local input shows UTC time instead of local time when editing
-
----
-
-## Completed Features
-
-- [x] File System Access API storage — user picks a local folder on first run; app creates `Stream-Planning-SaveData/` with JSON files inside; handle persisted in IndexedDB; permission re-request on reload
-- [x] Save location shown and changeable from Settings page
+- [x] Project setup (Bun, Vite, React, Zustand, ESLint, Prettier, git hooks)
+- [x] Stream Planner page — CRUD, status badges, filter bar
+- [x] Reminders page — CRUD, overdue indicators, recurring, mark done
+- [x] Discord Schedule Generator — week picker, Discord timestamps, copy to clipboard
+- [x] Settings page
+- [x] File System Access API storage — folder picker, IndexedDB handle persistence, reconnect flow
+- [x] First-run onboarding — folder selection → profile setup (name + Twitch username) → app
+- [x] Fix: datetime-local inputs showing UTC time instead of local time
 
 ---
 

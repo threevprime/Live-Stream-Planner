@@ -26,7 +26,7 @@ export default function App() {
         );
     }
 
-    if (status === "needs-setup" || status === "needs-permission") {
+    if (status === "needs-setup" || status === "needs-permission" || status === "needs-profile") {
         return <SaveLocationModal />;
     }
 

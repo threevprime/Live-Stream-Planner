@@ -1,8 +1,15 @@
 import { create } from "zustand";
 import { getSavedHandle, saveHandle, clearHandle } from "../utils/idb";
-import { initSaveFolder, SAVE_FOLDER_NAME } from "../utils/fileStorage";
+import { initSaveFolder, readJson, writeJson, SAVE_FOLDER_NAME } from "../utils/fileStorage";
+import type { Settings } from "../types";
 
-export type FSStatus = "checking" | "needs-setup" | "needs-permission" | "ready" | "error";
+export type FSStatus =
+    | "checking"
+    | "needs-setup"
+    | "needs-permission"
+    | "needs-profile"
+    | "ready"
+    | "error";
 
 const DISPLAY_PATH_KEY = "saveFolderDisplayPath";
 
@@ -14,8 +21,18 @@ interface FileSystemState {
     init: () => Promise<void>;
     pickFolder: () => Promise<void>;
     requestPermission: () => Promise<void>;
+    completeProfile: (streamerName: string, twitchUsername: string) => Promise<void>;
     changeFolder: () => Promise<void>;
     clearFolder: () => Promise<void>;
+}
+
+async function isNewSetup(handle: FileSystemDirectoryHandle): Promise<boolean> {
+    try {
+        const settings = await readJson<Settings>(handle, "settings.json");
+        return !settings.streamerName;
+    } catch {
+        return true;
+    }
 }
 
 export const useFileSystemStore = create<FileSystemState>((set, get) => ({
@@ -58,7 +75,14 @@ export const useFileSystemStore = create<FileSystemState>((set, get) => ({
             await saveHandle(dirHandle);
             const displayPath = `${parentHandle.name}/${SAVE_FOLDER_NAME}`;
             localStorage.setItem(DISPLAY_PATH_KEY, displayPath);
-            set({ dirHandle, status: "ready", displayPath, error: null });
+
+            const newSetup = await isNewSetup(dirHandle);
+            set({
+                dirHandle,
+                displayPath,
+                error: null,
+                status: newSetup ? "needs-profile" : "ready",
+            });
         } catch (e) {
             if ((e as DOMException).name !== "AbortError") {
                 set({
@@ -87,6 +111,22 @@ export const useFileSystemStore = create<FileSystemState>((set, get) => ({
             }
         } catch {
             set({ error: "Could not request permission. Please try again." });
+        }
+    },
+
+    completeProfile: async (streamerName, twitchUsername) => {
+        const { dirHandle } = get();
+        if (!dirHandle) return;
+        try {
+            const current = await readJson<Settings>(dirHandle, "settings.json");
+            await writeJson(dirHandle, "settings.json", {
+                ...current,
+                streamerName,
+                twitchUsername,
+            });
+            set({ status: "ready", error: null });
+        } catch {
+            set({ error: "Failed to save profile. Please try again." });
         }
     },
 
