@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import logoUrl from "../assets/logo.png";
 import { NavLink } from "react-router-dom";
 import "./Layout.css";
 
@@ -14,7 +15,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="layout">
             <aside className="sidebar">
                 <div className="sidebar-brand">
-                    <img src="/assets/logo.png" alt="Threev Prime" className="sidebar-logo" />
+                    <img src={logoUrl} alt="Threev Prime" className="sidebar-logo" />
                 </div>
                 <nav className="sidebar-nav">
                     {NAV_ITEMS.map((item) => (

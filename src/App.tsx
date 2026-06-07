@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import logoUrl from "./assets/logo.png";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import SaveLocationModal from "./components/SaveLocationModal";
@@ -21,7 +22,7 @@ export default function App() {
     if (status === "checking") {
         return (
             <div className="app-loading">
-                <img src="/assets/logo.png" alt="Loading" className="app-loading-logo" />
+                <img src={logoUrl} alt="Loading" className="app-loading-logo" />
             </div>
         );
     }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import logoUrl from "../assets/logo.png";
 import { useFileSystemStore } from "../store/fileSystemStore";
 import { SAVE_FOLDER_NAME } from "../utils/fileStorage";
 import "./SaveLocationModal.css";
@@ -35,7 +36,7 @@ export default function SaveLocationModal() {
         return (
             <div className="sl-overlay">
                 <div className="sl-modal">
-                    <img src="/assets/logo.png" alt="Stream Planning Manager" className="sl-logo" />
+                    <img src={logoUrl} alt="Stream Planning Manager" className="sl-logo" />
                     <h1 className="sl-title">One more thing</h1>
                     <p className="sl-desc">Set up your profile so the app knows who you are.</p>
                     {error && <p className="sl-error">{error}</p>}
@@ -79,7 +80,7 @@ export default function SaveLocationModal() {
         return (
             <div className="sl-overlay">
                 <div className="sl-modal">
-                    <img src="/assets/logo.png" alt="Stream Planning Manager" className="sl-logo" />
+                    <img src={logoUrl} alt="Stream Planning Manager" className="sl-logo" />
                     <h1 className="sl-title">Reconnect save folder</h1>
                     <p className="sl-desc">
                         Your save folder{" "}
@@ -101,7 +102,7 @@ export default function SaveLocationModal() {
     return (
         <div className="sl-overlay">
             <div className="sl-modal">
-                <img src="/assets/logo.png" alt="Stream Planning Manager" className="sl-logo" />
+                <img src={logoUrl} alt="Stream Planning Manager" className="sl-logo" />
                 <h1 className="sl-title">Choose a save location</h1>
                 <p className="sl-desc">
                     Select a folder on your PC. The app will create a{" "}
