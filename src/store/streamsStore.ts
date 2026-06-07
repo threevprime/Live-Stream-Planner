@@ -1,5 +1,11 @@
 import { create } from "zustand";
 import type { Stream } from "../types";
+import { readJson, writeJson } from "../utils/fileStorage";
+import { useFileSystemStore } from "./fileSystemStore";
+
+function getHandle() {
+    return useFileSystemStore.getState().dirHandle;
+}
 
 interface StreamsState {
     streams: Stream[];
@@ -10,41 +16,44 @@ interface StreamsState {
     remove: (id: string) => Promise<void>;
 }
 
-export const useStreamsStore = create<StreamsState>((set) => ({
+export const useStreamsStore = create<StreamsState>((set, get) => ({
     streams: [],
     loading: false,
 
     fetch: async () => {
+        const handle = getHandle();
+        if (!handle) return;
         set({ loading: true });
-        const res = await fetch("/api/streams");
-        const streams = (await res.json()) as Stream[];
+        const streams = await readJson<Stream[]>(handle, "streams.json");
         set({ streams, loading: false });
     },
 
     create: async (data) => {
-        const res = await fetch("/api/streams", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-        const newStream = (await res.json()) as Stream;
-        set((s) => ({ streams: [...s.streams, newStream] }));
+        const handle = getHandle();
+        if (!handle) return;
+        const newStream: Stream = {
+            ...data,
+            id: crypto.randomUUID(),
+            createdAt: new Date().toISOString(),
+        };
+        const streams = [...get().streams, newStream];
+        await writeJson(handle, "streams.json", streams);
+        set({ streams });
     },
 
     update: async (id, data) => {
-        const res = await fetch(`/api/streams/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-        const updated = (await res.json()) as Stream;
-        set((s) => ({
-            streams: s.streams.map((stream) => (stream.id === id ? updated : stream)),
-        }));
+        const handle = getHandle();
+        if (!handle) return;
+        const streams = get().streams.map((s) => (s.id === id ? { ...s, ...data, id } : s));
+        await writeJson(handle, "streams.json", streams);
+        set({ streams });
     },
 
     remove: async (id) => {
-        await fetch(`/api/streams/${id}`, { method: "DELETE" });
-        set((s) => ({ streams: s.streams.filter((stream) => stream.id !== id) }));
+        const handle = getHandle();
+        if (!handle) return;
+        const streams = get().streams.filter((s) => s.id !== id);
+        await writeJson(handle, "streams.json", streams);
+        set({ streams });
     },
 }));

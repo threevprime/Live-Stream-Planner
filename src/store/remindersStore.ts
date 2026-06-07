@@ -1,5 +1,11 @@
 import { create } from "zustand";
 import type { Reminder } from "../types";
+import { readJson, writeJson } from "../utils/fileStorage";
+import { useFileSystemStore } from "./fileSystemStore";
+
+function getHandle() {
+    return useFileSystemStore.getState().dirHandle;
+}
 
 interface RemindersState {
     reminders: Reminder[];
@@ -11,53 +17,52 @@ interface RemindersState {
     markDone: (id: string) => Promise<void>;
 }
 
-export const useRemindersStore = create<RemindersState>((set) => ({
+export const useRemindersStore = create<RemindersState>((set, get) => ({
     reminders: [],
     loading: false,
 
     fetch: async () => {
+        const handle = getHandle();
+        if (!handle) return;
         set({ loading: true });
-        const res = await fetch("/api/reminders");
-        const reminders = (await res.json()) as Reminder[];
+        const reminders = await readJson<Reminder[]>(handle, "reminders.json");
         set({ reminders, loading: false });
     },
 
     create: async (data) => {
-        const res = await fetch("/api/reminders", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-        const newReminder = (await res.json()) as Reminder;
-        set((s) => ({ reminders: [...s.reminders, newReminder] }));
+        const handle = getHandle();
+        if (!handle) return;
+        const newReminder: Reminder = {
+            ...data,
+            id: crypto.randomUUID(),
+            createdAt: new Date().toISOString(),
+        };
+        const reminders = [...get().reminders, newReminder];
+        await writeJson(handle, "reminders.json", reminders);
+        set({ reminders });
     },
 
     update: async (id, data) => {
-        const res = await fetch(`/api/reminders/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-        const updated = (await res.json()) as Reminder;
-        set((s) => ({
-            reminders: s.reminders.map((r) => (r.id === id ? updated : r)),
-        }));
+        const handle = getHandle();
+        if (!handle) return;
+        const reminders = get().reminders.map((r) => (r.id === id ? { ...r, ...data, id } : r));
+        await writeJson(handle, "reminders.json", reminders);
+        set({ reminders });
     },
 
     remove: async (id) => {
-        await fetch(`/api/reminders/${id}`, { method: "DELETE" });
-        set((s) => ({ reminders: s.reminders.filter((r) => r.id !== id) }));
+        const handle = getHandle();
+        if (!handle) return;
+        const reminders = get().reminders.filter((r) => r.id !== id);
+        await writeJson(handle, "reminders.json", reminders);
+        set({ reminders });
     },
 
     markDone: async (id) => {
-        const res = await fetch(`/api/reminders/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ done: true }),
-        });
-        const updated = (await res.json()) as Reminder;
-        set((s) => ({
-            reminders: s.reminders.map((r) => (r.id === id ? updated : r)),
-        }));
+        const handle = getHandle();
+        if (!handle) return;
+        const reminders = get().reminders.map((r) => (r.id === id ? { ...r, done: true } : r));
+        await writeJson(handle, "reminders.json", reminders);
+        set({ reminders });
     },
 }));

@@ -25,6 +25,12 @@ const browserGlobals = {
     FormData: "readonly",
     Intl: "readonly",
     React: "readonly",
+    localStorage: "readonly",
+    indexedDB: "readonly",
+    IDBDatabase: "readonly",
+    DOMException: "readonly",
+    FileSystemDirectoryHandle: "readonly",
+    FileSystemFileHandle: "readonly",
 };
 
 const bunGlobals = {

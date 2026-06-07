@@ -6,7 +6,7 @@ _Check off items when done; add new items as scope grows._
 
 ## Phase 1 — Project Setup ✓
 
-## Phase 2 — Backend / Storage Layer ✓
+## Phase 2 — Backend / Storage Layer ✓ (replaced by File System Access API)
 
 ## Phase 3 — Zustand Stores ✓
 
@@ -16,13 +16,20 @@ _Check off items when done; add new items as scope grows._
 
 ## Phase 6 — Discord Schedule Generator ✓
 
-## Phase 7 — Settings Page ✓ (template customization + theme preview deferred)
+## Phase 7 — Settings Page ✓ (template customization deferred)
 
 ---
 
 ## Bug Fixes
 
-- [x] datetime-local input shows UTC time instead of local time when editing (fixed via `toLocalInput` util)
+- [x] datetime-local input shows UTC time instead of local time when editing
+
+---
+
+## Completed Features
+
+- [x] File System Access API storage — user picks a local folder on first run; app creates `Stream-Planning-SaveData/` with JSON files inside; handle persisted in IndexedDB; permission re-request on reload
+- [x] Save location shown and changeable from Settings page
 
 ---
 

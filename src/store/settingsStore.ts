@@ -1,5 +1,11 @@
 import { create } from "zustand";
 import type { Settings } from "../types";
+import { readJson, writeJson } from "../utils/fileStorage";
+import { useFileSystemStore } from "./fileSystemStore";
+
+function getHandle() {
+    return useFileSystemStore.getState().dirHandle;
+}
 
 interface SettingsState {
     settings: Settings | null;
@@ -7,22 +13,21 @@ interface SettingsState {
     update: (data: Partial<Settings>) => Promise<void>;
 }
 
-export const useSettingsStore = create<SettingsState>((set) => ({
+export const useSettingsStore = create<SettingsState>((set, get) => ({
     settings: null,
 
     fetch: async () => {
-        const res = await fetch("/api/settings");
-        const settings = (await res.json()) as Settings;
+        const handle = getHandle();
+        if (!handle) return;
+        const settings = await readJson<Settings>(handle, "settings.json");
         set({ settings });
     },
 
     update: async (data) => {
-        const res = await fetch("/api/settings", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-        const updated = (await res.json()) as Settings;
+        const handle = getHandle();
+        if (!handle) return;
+        const updated = { ...get().settings!, ...data };
+        await writeJson(handle, "settings.json", updated);
         set({ settings: updated });
     },
 }));

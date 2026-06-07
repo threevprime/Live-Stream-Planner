@@ -75,3 +75,28 @@ select {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-secondary);
 }
+
+.app-loading {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+}
+
+.app-loading-logo {
+    width: 140px;
+    height: auto;
+    opacity: 0.6;
+    animation: pulse-logo 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-logo {
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.9;
+    }
+}
