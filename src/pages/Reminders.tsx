@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useRemindersStore } from "../store/remindersStore";
 import type { Reminder, RepeatInterval } from "../types";
+import { toLocalInput } from "../utils/datetime";
 
 const EMPTY: Omit<Reminder, "id" | "createdAt"> = {
     title: "",
@@ -215,7 +216,7 @@ export default function Reminders() {
                                     <input
                                         className="input"
                                         type="datetime-local"
-                                        value={form.dueAt.slice(0, 16)}
+                                        value={toLocalInput(form.dueAt)}
                                         onChange={(e) =>
                                             setForm({
                                                 ...form,

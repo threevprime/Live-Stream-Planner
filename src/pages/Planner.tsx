@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useStreamsStore } from "../store/streamsStore";
 import type { Stream, StreamStatus } from "../types";
+import { toLocalInput } from "../utils/datetime";
 
 const STATUS_OPTIONS: StreamStatus[] = ["planned", "live", "completed", "cancelled"];
 
@@ -151,7 +152,7 @@ export default function Planner() {
                                     <input
                                         className="input"
                                         type="datetime-local"
-                                        value={form.startTime.slice(0, 16)}
+                                        value={toLocalInput(form.startTime)}
                                         onChange={(e) =>
                                             setForm({
                                                 ...form,
