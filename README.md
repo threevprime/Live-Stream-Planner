@@ -40,8 +40,8 @@ No database, no cloud, no accounts. Data lives in `data/` on your machine.
 
 ```bash
 # Clone the repo
-git clone https://github.com/threevprime/stream-planning-manager.git
-cd stream-planning-manager
+git clone https://github.com/threevprime/Live-Stream-Planner.git
+cd Live-Stream-Planner
 
 # Install dependencies and register git hooks
 bun install
