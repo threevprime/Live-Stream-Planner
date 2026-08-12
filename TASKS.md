@@ -20,7 +20,8 @@ _Check off items when done; add new items as scope grows._
 ## Remaining / Upcoming
 
 - [ ] Calendar view on planner (week/month)
-- [ ] Discord message template customization in settings
+- [x] Discord message template customization in settings
+- [ ] Canceled announcement Discord creator when a stream gets canceled
 - [ ] Responsive layout
 - [ ] Export / import data (JSON backup)
 - [ ] Discord graphics generator — weekly schedule image export (PNG)

@@ -2,7 +2,7 @@
 
 A personal planning tool for Twitch streamers. Schedule your streams, manage reminders, and generate formatted Discord schedule messages — all in one place, all stored locally on your machine.
 
-Built by [Threev Prime](https://twitch.tv/threevprime).
+Built by [Threev Prime](https://twitch.tv/threevprime). If you find it useful, consider [supporting on Ko-fi](https://ko-fi.com/threevprime).
 
 ---
 

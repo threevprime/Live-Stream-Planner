@@ -30,4 +30,6 @@ export interface Settings {
     timezone: string;
     defaultDuration: number;
     discordMessageTemplate: string;
+    discordIntro: string;
+    discordOutro: string;
 }

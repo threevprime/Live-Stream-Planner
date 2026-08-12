@@ -131,10 +131,47 @@ export default function SettingsPage() {
                         </div>
                     </div>
 
+                    <div className="card" style={{ padding: 24, marginBottom: 24 }}>
+                        <h2 className="settings-section-title">Discord Messages</h2>
+                        <div className="form-row">
+                            <label className="label">Intro message</label>
+                            <textarea
+                                className="input"
+                                rows={2}
+                                value={form.discordIntro}
+                                onChange={(e) => setForm({ ...form, discordIntro: e.target.value })}
+                            />
+                        </div>
+                        <div className="form-row">
+                            <label className="label">Outro message</label>
+                            <textarea
+                                className="input"
+                                rows={2}
+                                value={form.discordOutro}
+                                onChange={(e) => setForm({ ...form, discordOutro: e.target.value })}
+                            />
+                        </div>
+                    </div>
+
                     <button type="submit" className="btn btn-primary">
                         {saved ? "✓ Saved!" : "Save Settings"}
                     </button>
                 </form>
+
+                <div className="card" style={{ padding: 24, marginTop: 24 }}>
+                    <h2 className="settings-section-title">Support</h2>
+                    <p className="settings-folder-hint">
+                        If you find this tool useful, consider supporting its development.
+                    </p>
+                    <a
+                        className="btn btn-ghost"
+                        href="https://ko-fi.com/threevprime"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        ☕ Support on Ko-fi
+                    </a>
+                </div>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStreamsStore } from "../store/streamsStore";
+import { useSettingsStore } from "../store/settingsStore";
 import type { Stream } from "../types";
 
 type TimestampFormat = "t" | "T" | "d" | "D" | "f" | "F" | "R";
@@ -67,17 +68,24 @@ function generateMessage(streams: Stream[], intro: string, outro: string) {
 
 export default function DiscordSchedule() {
     const { streams, fetch } = useStreamsStore();
+    const { settings, fetch: fetchSettings } = useSettingsStore();
     const [weekOffset, setWeekOffset] = useState(0);
     const [selected, setSelected] = useState<Set<string>>(new Set());
-    const [intro, setIntro] = useState("Hey chat! Here's what's on the schedule this week 🦊✨");
-    const [outro, setOutro] = useState(
-        "Follow on Twitch so you don't miss a stream! twitch.tv/threevprime"
-    );
+    const [intro, setIntro] = useState("");
+    const [outro, setOutro] = useState("");
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         fetch();
-    }, [fetch]);
+        fetchSettings();
+    }, [fetch, fetchSettings]);
+
+    useEffect(() => {
+        if (settings) {
+            setIntro(settings.discordIntro);
+            setOutro(settings.discordOutro);
+        }
+    }, [settings]);
 
     const { start, end } = getWeekBounds(weekOffset);
     const weekStreams = streams.filter((s) => {

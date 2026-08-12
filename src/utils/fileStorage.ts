@@ -11,6 +11,8 @@ const DEFAULTS: Record<string, unknown> = {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         defaultDuration: 180,
         discordMessageTemplate: "default",
+        discordIntro: "Hey chat! Here's what's on the schedule this week 🦊✨",
+        discordOutro: "Follow on Twitch so you don't miss a stream! twitch.tv/threevprime",
     } satisfies Settings,
 };
 
