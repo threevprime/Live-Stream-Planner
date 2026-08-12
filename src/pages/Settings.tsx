@@ -164,12 +164,15 @@ export default function SettingsPage() {
                         If you find this tool useful, consider supporting its development.
                     </p>
                     <a
-                        className="btn btn-ghost"
+                        className="btn btn-kofi"
                         href="https://ko-fi.com/threevprime"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        ☕ Support on Ko-fi
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M19.5 8h-1V6.5A2.5 2.5 0 0 0 16 4H4a2.5 2.5 0 0 0-2.5 2.5v7A5.5 5.5 0 0 0 7 19h4a5.5 5.5 0 0 0 5.46-4.83A3.5 3.5 0 0 0 19.5 8Zm0 3.5H18V10h1.5a1 1 0 0 1 0 3Z" />
+                        </svg>
+                        Support on Ko-fi
                     </a>
                 </div>
             </div>
