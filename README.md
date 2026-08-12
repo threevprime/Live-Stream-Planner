@@ -6,6 +6,12 @@ Built by [Threev Prime](https://twitch.tv/threevprime). If you find it useful, c
 
 ---
 
+## Try It Online
+
+No install needed — use the hosted version at **[threevprime.github.io/Live-Stream-Planner](https://threevprime.github.io/Live-Stream-Planner/)** in Chrome or Edge.
+
+---
+
 ## Features
 
 - **Stream Planner** — Create and manage stream sessions with title, date/time, duration, game/project, notes, and status tracking (planned → live → completed).
