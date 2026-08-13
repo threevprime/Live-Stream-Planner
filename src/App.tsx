@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import logoUrl from "./assets/logo.png";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import SaveLocationModal from "./components/SaveLocationModal";
 import Planner from "./pages/Planner";
@@ -32,7 +32,7 @@ export default function App() {
     }
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Layout>
                 <Routes>
                     <Route path="/" element={<Planner />} />
@@ -41,6 +41,6 @@ export default function App() {
                     <Route path="/settings" element={<SettingsPage />} />
                 </Routes>
             </Layout>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
